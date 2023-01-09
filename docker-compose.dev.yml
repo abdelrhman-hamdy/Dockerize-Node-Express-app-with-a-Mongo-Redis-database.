@@ -1,0 +1,19 @@
+version: '3'
+services:
+  node-app:
+    build: 
+      context: .
+      args:
+        - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - MONGO_USERNAME=root 
+      - MONGO_PASS=root123
+    volumes:
+      - ./:/app:ro
+      - /app/node_modules
+
+    
