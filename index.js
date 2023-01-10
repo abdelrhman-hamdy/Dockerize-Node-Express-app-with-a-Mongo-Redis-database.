@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const redis = require("redis");
-const cors = require("cors");
+//const cors = require("cors");
 let RedisStore = require("connect-redis")(session);
 
 
@@ -29,6 +29,12 @@ const connectWithRetry = () => {
  
 connectWithRetry(); 
 const app = express();
+
+
+app.enable("trust proxy");
+
+
+
 app.use(
     session({
       store: new RedisStore({ client: redisClient }),
@@ -45,9 +51,13 @@ app.use(
 
 //mongoose.connect('mongodb://root:root@172.31.0.2:27017/').then(() => console.log("Successfully  connected to the DB") ).catch( (e) => console.log('falieddddddd') );
 
-app.get("/", (req,res) => {
-    res.send("<h2> HI There , this Hamada !!!   </h2>");
+app.get("/api/v1", (req,res) => {
+    res.send("<h2> HI There , this Hamada's Brother !!!   </h2>");
+    console.log("Testing the Nginx load balancer")
 }    ); 
+
+
+
 app.use(express.json());
 app.use("/api/v1/posts",postRouter)
 
