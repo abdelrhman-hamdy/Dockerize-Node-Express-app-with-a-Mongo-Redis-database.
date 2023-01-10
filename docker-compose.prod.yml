@@ -7,12 +7,12 @@ services:
     build:
       context: .
       args:
-        - NODE_ENV=production
+        - NODE_ENV=${NODE_ENV}
 
     # in production server, the enviroment variables will be taken form the machine enviroment vars
     environment:
       - PORT= 3000
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
       - MONGO_USERNAME=${MONGO_USERNAME} 
       - MONGO_PASS=${MONGO_PASS}
       - SESSION_SECRET=${SESSION_SECRET}
