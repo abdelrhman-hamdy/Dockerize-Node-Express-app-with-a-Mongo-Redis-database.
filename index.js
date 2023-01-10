@@ -1,6 +1,19 @@
 const express = require("express");
-const mongoose = require('mongoose');
-const { MONGO_IP, MONGO_PORT, MONGO_USERNAME, MONGO_PASS } = require("./config/config");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const redis = require("redis");
+const cors = require("cors");
+let RedisStore = require("connect-redis")(session);
+
+
+
+
+  
+const { MONGO_IP, MONGO_PORT, MONGO_USERNAME, MONGO_PASS ,REDIS_URL,SESSION_SECRET,REDIS_PORT} = require("./config/config");
+let redisClient = redis.createClient({
+    host: REDIS_URL,
+    port: REDIS_PORT,
+  });
 
 const mongoURL= `mongodb://${MONGO_USERNAME}:${MONGO_PASS}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`;
 
@@ -15,10 +28,23 @@ const connectWithRetry = () => {
 }
  
 connectWithRetry(); 
-
+const app = express();
+app.use(
+    session({
+      store: new RedisStore({ client: redisClient }),
+      secret: SESSION_SECRET,
+      cookie: {
+        secure: false,
+        resave: false,
+        saveUninitialized: false,
+        httpOnly: true,
+        maxAge: 10000,
+      },
+    })
+  );
 
 //mongoose.connect('mongodb://root:root@172.31.0.2:27017/').then(() => console.log("Successfully  connected to the DB") ).catch( (e) => console.log('falieddddddd') );
-const app = express();
+
 app.get("/", (req,res) => {
     res.send("<h2> HI There , this Hamada !!!   </h2>");
 }    ); 

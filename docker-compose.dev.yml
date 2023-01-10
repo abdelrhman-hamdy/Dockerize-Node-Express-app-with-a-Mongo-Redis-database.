@@ -12,6 +12,7 @@ services:
       - NODE_ENV=development
       - MONGO_USERNAME=root 
       - MONGO_PASS=root123
+      - SESSION_SECRET=secret
     volumes:
       - ./:/app:ro
       - /app/node_modules
