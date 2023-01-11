@@ -1,0 +1,36 @@
+---
+  - name : Add signing key for docker repo
+    become: true
+    ansible.builtin.rpm_key:
+      key: "https://download.docker.com/linux/centos/gpg"
+      state: present
+
+
+  - name : add docker repo 
+    become: true
+    ansible.builtin.yum_repository:
+      name: docker
+      description: docker repository
+      baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+      enabled: true
+      gpgcheck: true
+      gpgkey: "https://download.docker.com/linux/centos/gpg"
+    
+
+  - name : install docker 
+    become: true 
+    ansible.builtin.yum: 
+      name: 
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state : latest
+      update_cache: true
+  
+  - name : Enable and start docker 
+    become : true
+    ansible.builtin.service:
+      name: "docker.service"
+      enabled: true
+      state: started
+

@@ -1,0 +1,4 @@
+MONGO_USERNAME=root
+MONGO_PASS=root123
+SESSION_SECRET=secret
+NODE_ENV=production

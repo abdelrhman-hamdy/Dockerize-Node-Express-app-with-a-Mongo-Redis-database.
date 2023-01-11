@@ -1,0 +1,33 @@
+- name: install git 
+  become: true
+  ansible.builtin.yum: 
+    name : 
+      - git 
+    state: latest
+
+- name: Cloning the Repo
+  shell : |
+    git clone https://github.com/abdelrhman-hamdy/Dockerize-Node-Express-app-with-a-Mongo-Redis-database..git
+
+- name : copy enviroment varaiable
+  copy: 
+    src: env
+    dest: /home/hamdy/
+
+- name : add enviroment variable to bash_profile
+  become: true 
+  shell : |
+    echo "set -o allexport; source /home/hamdy/env; set +o allexport" >> /home/hamdy/.bashrc
+    source /home/hamdy/.bashrc
+    echo $(env | grep -e MONGO* -e SESSION_SECRET -e NODE_ENV)
+  register: commands_out
+- debug:
+      var: commands_out.stdout_lines  
+
+- name : Running Docker Compose !! 
+  become : true
+  
+  shell: |
+      cd /home/hamdy/Dockerize-Node-Express-app-with-a-Mongo-Redis-database. 
+      docker-compose -f docker-compose.yml -f docker-compose.prod.yml up  -d --build
+      
