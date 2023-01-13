@@ -19,6 +19,6 @@ credentials:
           - usernamePassword:
               id: "dockerhub"
               username: abdelrhmanhamdy
-              password: "01551343021:D"
+              password: ""
               description: "dockerhub credentials"
               scope: GLOBAL
