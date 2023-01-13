@@ -5,5 +5,5 @@ module.exports = {
     MONGO_PASS: process.env.MONGO_PASS || 'root123',
     REDIS_URL : process.env.REDIS_URL || "redis",
     REDIS_PORT : process.env.REDIS_PORT || 6379, 
-    SESSION_SECRET : process.env.SESSION_SECRET
+    SESSION_SECRET : process.env.SESSION_SECRET || secret
 } ;
